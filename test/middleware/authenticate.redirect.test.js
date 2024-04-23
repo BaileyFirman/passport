@@ -2,10 +2,13 @@
 /* jshint expr: true */
 
 var chai = require('chai')
-  , authenticate = require('../../lib/middleware/authenticate')
+  , authenticateReal = require('../../lib/framework/middleware/authenticate')
   , Passport = require('../..').Passport;
 
-
+const authenticate = (passport, name, options, callback) => {
+  return authenticateReal({ passport, name, options, callback });
+};
+  
 describe('middleware/authenticate', function() {
   
   describe('redirect', function() {
@@ -16,7 +19,10 @@ describe('middleware/authenticate', function() {
     };
     
     var passport = new Passport();
-    passport.use('redirect', new Strategy());
+    passport.use({
+      name: 'redirect',
+      strategy: new Strategy(),
+    });
     
     var request, response;
 
@@ -51,7 +57,10 @@ describe('middleware/authenticate', function() {
     };
     
     var passport = new Passport();
-    passport.use('redirect', new Strategy());
+    passport.use({
+      name: 'redirect',
+      strategy: new Strategy(),
+    });
     
     var request, response;
 
@@ -86,7 +95,10 @@ describe('middleware/authenticate', function() {
     };
     
     var passport = new Passport();
-    passport.use('redirect', new Strategy());
+    passport.use({
+      name: 'redirect',
+      strategy: new Strategy(),
+    });
     
     var request, response;
 
@@ -120,7 +132,10 @@ describe('middleware/authenticate', function() {
     };
     
     var passport = new Passport();
-    passport.use('redirect', new Strategy());
+    passport.use({
+      name: 'redirect',
+      strategy: new Strategy(),
+    });
     
     var request, response;
 

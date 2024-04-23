@@ -1,9 +1,12 @@
 /* global describe, it, expect, before */
 
 var chai = require('chai')
-  , authenticate = require('../../lib/middleware/authenticate')
+  , authenticateReal = require('../../lib/framework/middleware/authenticate')
   , Passport = require('../..').Passport;
 
+const authenticate = (passport, name, options, callback) => {
+  return authenticateReal({ passport, name, options, callback });
+};
 
 describe('middleware/authenticate', function() {
   
@@ -16,7 +19,10 @@ describe('middleware/authenticate', function() {
     };
     
     var passport = new Passport();
-    passport.use('success', new Strategy());
+    passport.use({
+  name: 'success',
+  strategy: new Strategy(),
+});
     
     var request, response;
 
@@ -27,9 +33,9 @@ describe('middleware/authenticate', function() {
           request = req;
           req.session = {};
           
-          req.logIn = function(user, options, done) {
+          req.logIn = function({ user, options, callback }) {
             this.user = user;
-            done();
+            callback();
           };
         })
         .end(function(res) {
@@ -65,7 +71,10 @@ describe('middleware/authenticate', function() {
     };
     
     var passport = new Passport();
-    passport.use('success', new Strategy());
+    passport.use({
+  name: 'success',
+  strategy: new Strategy(),
+});
     
     var request, response;
 
@@ -77,9 +86,9 @@ describe('middleware/authenticate', function() {
           req.session = {};
           req.session.messages = [ 'I exist!' ];
           
-          req.logIn = function(user, options, done) {
+          req.logIn = function({ user, options, callback }) {
             this.user = user;
-            done();
+            callback();
           };
         })
         .end(function(res) {
@@ -116,7 +125,10 @@ describe('middleware/authenticate', function() {
     };
     
     var passport = new Passport();
-    passport.use('success', new Strategy());
+    passport.use({
+  name: 'success',
+  strategy: new Strategy(),
+});
     
     var request, response;
 
@@ -127,9 +139,9 @@ describe('middleware/authenticate', function() {
           request = req;
           req.session = {};
           
-          req.logIn = function(user, options, done) {
+          req.logIn = function({ user, options, callback }) {
             this.user = user;
-            done();
+            callback();
           };
         })
         .end(function(res) {
@@ -165,7 +177,10 @@ describe('middleware/authenticate', function() {
     };
     
     var passport = new Passport();
-    passport.use('success', new Strategy());
+    passport.use({
+  name: 'success',
+  strategy: new Strategy(),
+});
     
     var request, response;
 
@@ -176,9 +191,9 @@ describe('middleware/authenticate', function() {
           request = req;
           req.session = {};
           
-          req.logIn = function(user, options, done) {
+          req.logIn = function({ user, options, callback }) {
             this.user = user;
-            done();
+            callback();
           };
         })
         .end(function(res) {

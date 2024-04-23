@@ -13,7 +13,7 @@ describe('Authenticator', function() {
         initialize: function() {
           return function() {};
         },
-        authenticate: function(passport, name, options) {
+        authenticate: function({ passport, name, options }) {
           return function() {
             return 'authenticate(): ' + name + ' ' + options.assignProperty;
           };
@@ -32,12 +32,12 @@ describe('Authenticator', function() {
         initialize: function() {
           return function() {};
         },
-        authenticate: function(passport, name, options) {
+        authenticate: function({ passport, name, options }) {
           return function() {
             return 'authenticate(): ' + name + ' ' + options.assignProperty;
           };
         },
-        authorize: function(passport, name, options) {
+        authorize: function({ passport, name, options }) {
           return function() {
             return 'authorize(): ' + name + ' ' + options.assignProperty;
           };

@@ -2,14 +2,17 @@
 /* jshint expr: true */
 
 var chai = require('chai')
-  , authenticate = require('../../lib/middleware/authenticate')
+  , authenticateReal = require('../../lib/framework/middleware/authenticate')
   , Passport = require('../..').Passport;
 
+const authenticate = (passport, name, options, callback) => {
+  return authenticateReal({ passport, name, options, callback });
+};
 
 describe('middleware/authenticate', function() {
   
   it('should be named authenticate', function() {
-    expect(authenticate().name).to.equal('authenticate');
+    expect(authenticate.name).to.equal('authenticate');
   });
   
   describe('with unknown strategy', function() {
@@ -22,9 +25,9 @@ describe('middleware/authenticate', function() {
         .req(function(req) {
           request = req;
           
-          req.logIn = function(user, options, done) {
+          req.logIn = function({ user, options, callback }) {
             this.user = user;
-            done();
+            callback();
           };
         })
         .next(function(err) {

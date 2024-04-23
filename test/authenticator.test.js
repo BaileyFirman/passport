@@ -16,7 +16,9 @@ describe('Authenticator', function() {
       };
       
       var authenticator = new Authenticator();
-      authenticator.use(new Strategy());
+      authenticator.use({
+        strategy: new Strategy(),
+      });
       
       it('should register strategy', function() {
         expect(authenticator._strategies['default']).to.be.an('object');
@@ -30,7 +32,10 @@ describe('Authenticator', function() {
       };
       
       var authenticator = new Authenticator();
-      authenticator.use('foo', new Strategy());
+      authenticator.use({
+        name: 'foo',
+        strategy: new Strategy(),
+      });
       
       it('should register strategy', function() {
         expect(authenticator._strategies['foo']).to.be.an('object');
@@ -45,7 +50,10 @@ describe('Authenticator', function() {
       };
       
       var authenticator = new Authenticator();
-      authenticator.use('bar', new Strategy());
+      authenticator.use({
+        name: 'bar',
+        strategy: new Strategy(),
+      });
       
       it('should register strategy', function() {
         expect(authenticator._strategies['bar']).to.be.an('object');
@@ -61,7 +69,9 @@ describe('Authenticator', function() {
       
       expect(function() {
         var authenticator = new Authenticator();
-        authenticator.use(new Strategy());
+        authenticator.use({
+          strategy: new Strategy(),
+        });
       }).to.throw(Error, 'Authentication strategies must have a name');
     });
   });
@@ -74,8 +84,15 @@ describe('Authenticator', function() {
     };
     
     var authenticator = new Authenticator();
-    authenticator.use('one', new Strategy());
-    authenticator.use('two', new Strategy());
+
+    authenticator.use({
+      name: 'one',
+      strategy: new Strategy(),
+    });
+    authenticator.use({
+      name: 'two',
+      strategy: new Strategy(),
+    });
     
     expect(authenticator._strategies['one']).to.be.an('object');
     expect(authenticator._strategies['two']).to.be.an('object');
@@ -96,11 +113,11 @@ describe('Authenticator', function() {
       var error, obj;
     
       before(function(done) {
-        authenticator.serializeUser({ id: '1', username: 'jared' }, function(err, o) {
+        authenticator.serializeUser({ user: { id: '1', username: 'jared' }, done: function(err, o) {
           error = err;
           obj = o;
           done();
-        });
+        }});
       });
     
       it('should error', function() {
@@ -122,11 +139,11 @@ describe('Authenticator', function() {
       var error, obj;
     
       before(function(done) {
-        authenticator.serializeUser({ id: '1', username: 'jared' }, function(err, o) {
+        authenticator.serializeUser({ user: { id: '1', username: 'jared' }, done: function(err, o) {
           error = err;
           obj = o;
           done();
-        });
+        }});
       });
     
       it('should not error', function() {
@@ -147,11 +164,11 @@ describe('Authenticator', function() {
       var error, obj;
     
       before(function(done) {
-        authenticator.serializeUser({ id: '1', username: 'jared' }, function(err, o) {
+        authenticator.serializeUser({ user: { id: '1', username: 'jared' }, done: function(err, o) {
           error = err;
           obj = o;
           done();
-        });
+        }});
       });
     
       it('should not error', function() {
@@ -172,11 +189,11 @@ describe('Authenticator', function() {
       var error, obj;
     
       before(function(done) {
-        authenticator.serializeUser({ id: '1', username: 'jared' }, function(err, o) {
+        authenticator.serializeUser({ user: { id: '1', username: 'jared' }, done: function(err, o) {
           error = err;
           obj = o;
           done();
-        });
+        }});
       });
     
       it('should error', function() {
@@ -198,11 +215,11 @@ describe('Authenticator', function() {
       var error, obj;
     
       before(function(done) {
-        authenticator.serializeUser({ id: '1', username: 'jared' }, function(err, o) {
+        authenticator.serializeUser({ user: { id: '1', username: 'jared' }, done: function(err, o) {
           error = err;
           obj = o;
           done();
-        });
+        }});
       });
     
       it('should error', function() {
@@ -224,11 +241,11 @@ describe('Authenticator', function() {
       var error, obj;
     
       before(function(done) {
-        authenticator.serializeUser({ id: '1', username: 'jared' }, function(err, o) {
+        authenticator.serializeUser({ user: { id: '1', username: 'jared' }, done: function(err, o) {
           error = err;
           obj = o;
           done();
-        });
+        }});
       });
     
       it('should error', function() {
@@ -250,11 +267,11 @@ describe('Authenticator', function() {
       var error, obj;
     
       before(function(done) {
-        authenticator.serializeUser({ id: '1', username: 'jared' }, function(err, o) {
+        authenticator.serializeUser({ user: { id: '1', username: 'jared' }, done: function(err, o) {
           error = err;
           obj = o;
           done();
-        });
+        }});
       });
     
       it('should error', function() {
@@ -276,11 +293,11 @@ describe('Authenticator', function() {
       var error, obj;
     
       before(function(done) {
-        authenticator.serializeUser({ id: '1', username: 'jared' }, function(err, o) {
+        authenticator.serializeUser({ user: { id: '1', username: 'jared' }, done: function(err, o) {
           error = err;
           obj = o;
           done();
-        });
+        }});
       });
     
       it('should error', function() {
@@ -308,11 +325,11 @@ describe('Authenticator', function() {
       var error, obj;
     
       before(function(done) {
-        authenticator.serializeUser({ id: '1', username: 'jared' }, function(err, o) {
+        authenticator.serializeUser({ user: { id: '1', username: 'jared' }, done: function(err, o) {
           error = err;
           obj = o;
           done();
-        });
+        }});
       });
     
       it('should not error', function() {
@@ -339,11 +356,11 @@ describe('Authenticator', function() {
       var error, obj;
     
       before(function(done) {
-        authenticator.serializeUser({ id: '1', username: 'jared' }, function(err, o) {
+        authenticator.serializeUser({ user: { id: '1', username: 'jared' }, done: function(err, o) {
           error = err;
           obj = o;
           done();
-        });
+        }});
       });
     
       it('should not error', function() {
@@ -370,11 +387,11 @@ describe('Authenticator', function() {
       var error, obj;
     
       before(function(done) {
-        authenticator.serializeUser({ id: '1', username: 'jared' }, function(err, o) {
+        authenticator.serializeUser({ user: { id: '1', username: 'jared' }, done: function(err, o) {
           error = err;
           obj = o;
           done();
-        });
+        }});
       });
     
       it('should not error', function() {
@@ -398,11 +415,11 @@ describe('Authenticator', function() {
       before(function(done) {
         var req = { url: '/foo' };
         
-        authenticator.serializeUser({ id: '1', username: 'jared' }, req, function(err, o) {
+        authenticator.serializeUser({ user: { id: '1', username: 'jared' }, req, done: function(err, o) {
           error = err;
           obj = o;
           done();
-        });
+        }});
       });
     
       it('should not error', function() {
@@ -424,11 +441,11 @@ describe('Authenticator', function() {
       var error, user;
     
       before(function(done) {
-        authenticator.deserializeUser({ id: '1', username: 'jared' }, function(err, u) {
+        authenticator.deserializeUser({ serializedUser: { id: '1', username: 'jared' }, done: function(err, u) {
           error = err;
           user = u;
           done();
-        });
+        }});
       });
     
       it('should error', function() {
@@ -450,11 +467,11 @@ describe('Authenticator', function() {
       var error, user;
     
       before(function(done) {
-        authenticator.deserializeUser({ id: '1', username: 'jared' }, function(err, u) {
+        authenticator.deserializeUser({ serializedUser: { id: '1', username: 'jared' }, done: function(err, u) {
           error = err;
           user = u;
           done();
-        });
+        }});
       });
     
       it('should not error', function() {
@@ -475,11 +492,11 @@ describe('Authenticator', function() {
       var error, user;
     
       before(function(done) {
-        authenticator.deserializeUser({ id: '1', username: 'jared' }, function(err, u) {
+        authenticator.deserializeUser({ serializedUser: { id: '1', username: 'jared' }, done: function(err, u) {
           error = err;
           user = u;
           done();
-        });
+        }});
       });
     
       it('should not error', function() {
@@ -500,11 +517,11 @@ describe('Authenticator', function() {
       var error, user;
     
       before(function(done) {
-        authenticator.deserializeUser({ id: '1', username: 'jared' }, function(err, u) {
+        authenticator.deserializeUser({ serializedUser: { id: '1', username: 'jared' }, done: function(err, u) {
           error = err;
           user = u;
           done();
-        });
+        }});
       });
     
       it('should not error', function() {
@@ -525,11 +542,11 @@ describe('Authenticator', function() {
       var error, user;
     
       before(function(done) {
-        authenticator.deserializeUser({ id: '1', username: 'jared' }, function(err, u) {
+        authenticator.deserializeUser({ serializedUser: { id: '1', username: 'jared' }, done: function(err, u) {
           error = err;
           user = u;
           done();
-        });
+        }});
       });
     
       it('should error', function() {
@@ -551,11 +568,11 @@ describe('Authenticator', function() {
       var error, user;
     
       before(function(done) {
-        authenticator.deserializeUser({ id: '1', username: 'jared' }, function(err, u) {
+        authenticator.deserializeUser({ serializedUser: { id: '1', username: 'jared' }, done: function(err, u) {
           error = err;
           user = u;
           done();
-        });
+        }});
       });
     
       it('should error', function() {
@@ -577,11 +594,11 @@ describe('Authenticator', function() {
       var error, user;
     
       before(function(done) {
-        authenticator.deserializeUser({ id: '1', username: 'jared' }, function(err, u) {
+        authenticator.deserializeUser({ serializedUser: { id: '1', username: 'jared' }, done: function(err, u) {
           error = err;
           user = u;
           done();
-        });
+        }});
       });
     
       it('should error', function() {
@@ -609,11 +626,11 @@ describe('Authenticator', function() {
       var error, user;
     
       before(function(done) {
-        authenticator.deserializeUser({ id: '1', username: 'jared' }, function(err, u) {
+        authenticator.deserializeUser({ serializedUser: { id: '1', username: 'jared' }, done: function(err, u) {
           error = err;
           user = u;
           done();
-        });
+        }});
       });
     
       it('should not error', function() {
@@ -640,11 +657,11 @@ describe('Authenticator', function() {
       var error, user;
     
       before(function(done) {
-        authenticator.deserializeUser({ id: '1', username: 'jared' }, function(err, u) {
+        authenticator.deserializeUser({ serializedUser: { id: '1', username: 'jared' }, done: function(err, u) {
           error = err;
           user = u;
           done();
-        });
+        }});
       });
     
       it('should not error', function() {
@@ -671,11 +688,11 @@ describe('Authenticator', function() {
       var error, user;
     
       before(function(done) {
-        authenticator.deserializeUser({ id: '1', username: 'jared' }, function(err, u) {
+        authenticator.deserializeUser({ serializedUser: { id: '1', username: 'jared' }, done: function(err, u) {
           error = err;
           user = u;
           done();
-        });
+        }});
       });
     
       it('should not error', function() {
@@ -702,11 +719,11 @@ describe('Authenticator', function() {
       var error, user;
     
       before(function(done) {
-        authenticator.deserializeUser({ id: '1', username: 'jared' }, function(err, u) {
+        authenticator.deserializeUser({ serializedUser: { id: '1', username: 'jared' }, done: function(err, u) {
           error = err;
           user = u;
           done();
-        });
+        }});
       });
     
       it('should not error', function() {
@@ -733,11 +750,11 @@ describe('Authenticator', function() {
       var error, user;
     
       before(function(done) {
-        authenticator.deserializeUser({ id: '1', username: 'jared' }, function(err, u) {
+        authenticator.deserializeUser({ serializedUser: { id: '1', username: 'jared' }, done: function(err, u) {
           error = err;
           user = u;
           done();
-        });
+        }});
       });
     
       it('should not error', function() {
@@ -761,11 +778,12 @@ describe('Authenticator', function() {
       before(function(done) {
         var req = { url: '/foo' };
         
-        authenticator.deserializeUser({ id: '1', username: 'jared' }, req, function(err, u) {
+        // @ts-ignore
+        authenticator.deserializeUser({ serializedUser: { id: '1', username: 'jared' }, req, done: function(err, u) {
           error = err;
           user = u;
           done();
-        });
+        }});
       });
     
       it('should not error', function() {
@@ -787,11 +805,11 @@ describe('Authenticator', function() {
       var error, obj;
     
       before(function(done) {
-        authenticator.transformAuthInfo({ clientId: '1', scope: 'write' }, function(err, o) {
+        authenticator.transformAuthInfo({ info: { clientId: '1', scope: 'write' }, done: function(err, o) {
           error = err;
           obj = o;
           done();
-        });
+        }});
       });
     
       it('should not error', function() {
@@ -814,11 +832,11 @@ describe('Authenticator', function() {
       var error, obj;
     
       before(function(done) {
-        authenticator.transformAuthInfo({ clientId: '1', scope: 'write' }, function(err, o) {
+        authenticator.transformAuthInfo({ info: { clientId: '1', scope: 'write' }, done: function(err, o) {
           error = err;
           obj = o;
           done();
-        });
+        }});
       });
     
       it('should not error', function() {
@@ -842,11 +860,11 @@ describe('Authenticator', function() {
       var error, obj;
     
       before(function(done) {
-        authenticator.transformAuthInfo({ clientId: '1', scope: 'write' }, function(err, o) {
+        authenticator.transformAuthInfo({ info: { clientId: '1', scope: 'write' }, done: function(err, o) {
           error = err;
           obj = o;
           done();
-        });
+        }});
       });
     
       it('should error', function() {
@@ -868,11 +886,11 @@ describe('Authenticator', function() {
       var error, obj;
     
       before(function(done) {
-        authenticator.transformAuthInfo({ clientId: '1', scope: 'write' }, function(err, o) {
+        authenticator.transformAuthInfo({ info: { clientId: '1', scope: 'write' }, done: function(err, o) {
           error = err;
           obj = o;
           done();
-        });
+        }});
       });
     
       it('should error', function() {
@@ -894,11 +912,11 @@ describe('Authenticator', function() {
       var error, obj;
     
       before(function(done) {
-        authenticator.transformAuthInfo({ clientId: '1', scope: 'write' }, function(err, o) {
+        authenticator.transformAuthInfo({ info: { clientId: '1', scope: 'write' }, done: function(err, o) {
           error = err;
           obj = o;
           done();
-        });
+        }});
       });
     
       it('should not error', function() {
@@ -928,11 +946,11 @@ describe('Authenticator', function() {
       var error, obj;
     
       before(function(done) {
-        authenticator.transformAuthInfo({ clientId: '1', scope: 'write' }, function(err, o) {
+        authenticator.transformAuthInfo({ info: { clientId: '1', scope: 'write' }, done: function(err, o) {
           error = err;
           obj = o;
           done();
-        });
+        }});
       });
     
       it('should not error', function() {
@@ -959,11 +977,12 @@ describe('Authenticator', function() {
       before(function(done) {
         var req = { url: '/foo' };
         
-        authenticator.transformAuthInfo({ clientId: '1', scope: 'write' }, req, function(err, o) {
+        // @ts-ignore
+        authenticator.transformAuthInfo({ info: { clientId: '1', scope: 'write' }, req, done: function(err, o) {
           error = err;
           obj = o;
           done();
-        });
+        }});
       });
     
       it('should not error', function() {

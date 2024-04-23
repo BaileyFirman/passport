@@ -109,7 +109,10 @@ describe('Authenticator', function() {
       };
     
       var passport = new Authenticator();
-      passport.use('success', new Strategy());
+      passport.use({
+        name: 'success',
+        strategy: new Strategy(),
+      });
     
       var request, error;
 
@@ -118,9 +121,9 @@ describe('Authenticator', function() {
           .req(function(req) {
             request = req;
           
-            req.logIn = function(user, options, done) {
+            req.logIn = function({ user, options, callback }) {
               this.user = user;
-              done();
+              callback();
             };
           })
           .next(function(err) {
@@ -163,9 +166,9 @@ describe('Authenticator', function() {
           .req(function(req) {
             request = req;
 
-            req.logIn = function(user, options, done) {
+            req.logIn = function({ user, options, callback }) {
               this.user = user;
-              done();
+              callback();
             };
           })
           .next(function(err) {
@@ -210,7 +213,10 @@ describe('Authenticator', function() {
       };
     
       var passport = new Authenticator();
-      passport.use('success', new Strategy());
+      passport.use({
+        name: 'success',
+        strategy: new Strategy(),
+      });
     
       var request, error;
 
@@ -219,9 +225,9 @@ describe('Authenticator', function() {
           .req(function(req) {
             request = req;
           
-            req.logIn = function(user, options, done) {
+            req.logIn = function({ user, options, callback }) {
               this.user = user;
-              done();
+              callback();
             };
           })
           .next(function(err) {
@@ -259,7 +265,10 @@ describe('Authenticator', function() {
       };
     
       var passport = new Authenticator();
-      passport.use('success', new Strategy());
+      passport.use({
+        name: 'success',
+        strategy: new Strategy(),
+      });
     
       var request, error;
 
@@ -268,9 +277,9 @@ describe('Authenticator', function() {
           .req(function(req) {
             request = req;
           
-            req.logIn = function(user, options, done) {
+            req.logIn = function({ user, options, callback }) {
               this.user = user;
-              done();
+              callback();
             };
           })
           .next(function(err) {

@@ -2,35 +2,57 @@
 /* jshint expr: true */
 
 var chai = require('chai')
-  , authenticate = require('../../lib/middleware/authenticate')
+  , authenticateReal = require('../../lib/framework/middleware/authenticate')
   , Passport = require('../..').Passport;
 
+const authenticate = (passport, name, options, callback) => {
+  if(typeof options == 'function') {
+    return authenticateReal({ passport, name, callback: options });
+  } else {
+    return authenticateReal({ passport, name, options, callback });
+  }
+};
 
 describe('middleware/authenticate', function() {
   
   describe('with multiple strategies, all of which fail, and responding with unauthorized status', function() {
-    function BasicStrategy() {
+    class BasicStrategy {
+      constructor() {
+      }
+      authenticate(req) {
+        this.fail('BASIC challenge');
+      }
     }
-    BasicStrategy.prototype.authenticate = function(req) {
-      this.fail('BASIC challenge');
-    };
     
-    function DigestStrategy() {
+    class DigestStrategy {
+      constructor() {
+      }
+      authenticate(req) {
+        this.fail('DIGEST challenge');
+      }
     }
-    DigestStrategy.prototype.authenticate = function(req) {
-      this.fail('DIGEST challenge');
-    };
     
-    function NoChallengeStrategy() {
+    class NoChallengeStrategy {
+      constructor() {
+      }
+      authenticate(req) {
+        this.fail();
+      }
     }
-    NoChallengeStrategy.prototype.authenticate = function(req) {
-      this.fail();
-    };
     
     var passport = new Passport();
-    passport.use('basic', new BasicStrategy());
-    passport.use('digest', new DigestStrategy());
-    passport.use('no-challenge', new NoChallengeStrategy());
+    passport.use({
+      name: 'basic',
+      strategy: new BasicStrategy(),
+    });
+    passport.use({
+      name: 'digest',
+      strategy: new DigestStrategy(),
+    });
+    passport.use({
+      name: 'no-challenge',
+      strategy: new NoChallengeStrategy(),
+    });
     
     var request, response;
 
@@ -89,9 +111,18 @@ describe('middleware/authenticate', function() {
     };
     
     var passport = new Passport();
-    passport.use('basic', new BasicStrategy());
-    passport.use('bearer', new BearerStrategy());
-    passport.use('no-challenge', new NoChallengeStrategy());
+    passport.use({
+      name: 'basic',
+      strategy: new BasicStrategy(),
+    });
+    passport.use({
+      name: 'bearer',
+      strategy: new BearerStrategy(),
+    });
+    passport.use({
+      name: 'no-challenge',
+      strategy: new NoChallengeStrategy(),
+    });
     
     var request, response;
 
@@ -136,8 +167,14 @@ describe('middleware/authenticate', function() {
     };
     
     var passport = new Passport();
-    passport.use('a', new StrategyA());
-    passport.use('b', new StrategyB());
+    passport.use({ 
+      name: 'a',
+      strategy: new StrategyA(),
+    });
+    passport.use({
+      name: 'b',
+      strategy: new StrategyB(),
+    });
     
     var request, response;
 
@@ -193,9 +230,18 @@ describe('middleware/authenticate', function() {
     };
     
     var passport = new Passport();
-    passport.use('basic', new BasicStrategy());
-    passport.use('digest', new DigestStrategy());
-    passport.use('no-challenge', new NoChallengeStrategy());
+    passport.use({
+      name: 'basic',
+      strategy: new BasicStrategy(),
+    });
+    passport.use({
+      name: 'digest',
+      strategy: new DigestStrategy(),
+    });
+    passport.use({
+      name: 'no-challenge',
+      strategy: new NoChallengeStrategy(),
+    });
     
     var request, error, user, challenge, status;
 
@@ -264,9 +310,18 @@ describe('middleware/authenticate', function() {
     };
     
     var passport = new Passport();
-    passport.use('basic', new BasicStrategy());
-    passport.use('bearer', new BearerStrategy());
-    passport.use('no-challenge', new NoChallengeStrategy());
+    passport.use({
+      name: 'basic',
+      strategy: new BasicStrategy(),
+    });
+    passport.use({
+      name: 'bearer',
+      strategy: new BearerStrategy(),
+    });
+    passport.use({
+      name: 'no-challenge',
+      strategy: new NoChallengeStrategy(),
+    });
     
     var request, error, user, challenge, status;
 
@@ -323,7 +378,10 @@ describe('middleware/authenticate', function() {
     };
     
     var passport = new Passport();
-    passport.use('basic', new BasicStrategy());
+    passport.use({
+      name: 'basic',
+      strategy: new BasicStrategy(),
+    });
     
     var request, error, user, challenge, status;
 

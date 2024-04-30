@@ -16,8 +16,10 @@ describe('SessionStrategy', function() {
     
     
     var SessionStrategy = $require('../../lib/strategies/session', { pause: pause });
-    var strategy = new SessionStrategy(function(user, req, done) {
-      done(null, { id: user });
+    var strategy = new SessionStrategy({
+      deserializeUser: function(serializedUser, req, done) {
+        done(null, { id: serializedUser });
+      }
     });
     
     var request, pass = false;
@@ -79,8 +81,10 @@ describe('SessionStrategy', function() {
     
     
     var SessionStrategy = $require('../../lib/strategies/session', { pause: pause });
-    var strategy = new SessionStrategy(function(user, req, done) {
-      done(null, false);
+    var strategy = new SessionStrategy({
+      deserializeUser: function(serializedUser, req, done) {
+        done(null, false);
+      }
     });
     
     var request, pass = false;

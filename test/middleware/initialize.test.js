@@ -2,14 +2,14 @@
 /* jshint expr: true */
 
 var chai = require('chai')
-  , initialize = require('../../lib/middleware/initialize')
+  , initialize = require('../../lib/framework/middleware/initialize')
   , Passport = require('../..').Passport;
 
 
 describe('middleware/initialize', function() {
   
   it('should be named initialize', function() {
-    expect(initialize().name).to.equal('initialize');
+    expect(initialize.name).to.equal('initialize');
   });
   
   describe('handling a request without a session', function() {

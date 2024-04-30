@@ -1,7 +1,7 @@
 /* global describe, it, expect, before */
 /* jshint expr: true, sub: true */
 
-var Authenticator = require('../lib/authenticator');
+var Authenticator = require('../lib/passport');
 
 
 describe('Authenticator', function() {
@@ -16,7 +16,9 @@ describe('Authenticator', function() {
       };
       
       var authenticator = new Authenticator();
-      authenticator.use(new Strategy());
+      authenticator.use({
+        strategy: new Strategy(),
+      });
       
       it('should register strategy', function() {
         expect(authenticator._strategies['default']).to.be.an('object');
@@ -30,7 +32,10 @@ describe('Authenticator', function() {
       };
       
       var authenticator = new Authenticator();
-      authenticator.use('foo', new Strategy());
+      authenticator.use({
+        name: 'foo',
+        strategy: new Strategy(),
+      });
       
       it('should register strategy', function() {
         expect(authenticator._strategies['foo']).to.be.an('object');
@@ -45,7 +50,10 @@ describe('Authenticator', function() {
       };
       
       var authenticator = new Authenticator();
-      authenticator.use('bar', new Strategy());
+      authenticator.use({
+        name: 'bar',
+        strategy: new Strategy(),
+      });
       
       it('should register strategy', function() {
         expect(authenticator._strategies['bar']).to.be.an('object');
@@ -61,7 +69,9 @@ describe('Authenticator', function() {
       
       expect(function() {
         var authenticator = new Authenticator();
-        authenticator.use(new Strategy());
+        authenticator.use({
+          strategy: new Strategy(),
+        });
       }).to.throw(Error, 'Authentication strategies must have a name');
     });
   });
@@ -74,8 +84,15 @@ describe('Authenticator', function() {
     };
     
     var authenticator = new Authenticator();
-    authenticator.use('one', new Strategy());
-    authenticator.use('two', new Strategy());
+
+    authenticator.use({
+      name: 'one',
+      strategy: new Strategy(),
+    });
+    authenticator.use({
+      name: 'two',
+      strategy: new Strategy(),
+    });
     
     expect(authenticator._strategies['one']).to.be.an('object');
     expect(authenticator._strategies['two']).to.be.an('object');
@@ -761,6 +778,7 @@ describe('Authenticator', function() {
       before(function(done) {
         var req = { url: '/foo' };
         
+        // @ts-ignore
         authenticator.deserializeUser({ id: '1', username: 'jared' }, req, function(err, u) {
           error = err;
           user = u;
@@ -959,6 +977,7 @@ describe('Authenticator', function() {
       before(function(done) {
         var req = { url: '/foo' };
         
+        // @ts-ignore
         authenticator.transformAuthInfo({ clientId: '1', scope: 'write' }, req, function(err, o) {
           error = err;
           obj = o;

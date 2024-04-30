@@ -7,7 +7,7 @@ var chai = require('chai')
 
 describe('SessionStrategy', function() {
   
-  var strategy = new SessionStrategy();
+  var strategy = new SessionStrategy({});
   
   it('should be named session', function() {
     expect(strategy.name).to.equal('session');
@@ -42,8 +42,10 @@ describe('SessionStrategy', function() {
   });
   
   describe('handling a request with a login session', function() {
-    var strategy = new SessionStrategy(function(user, req, done) {
-      done(null, { id: user });
+    var strategy = new SessionStrategy({
+      deserializeUser: function(serializedUser, req, done) {
+        done(null, { id: serializedUser });
+      }
     });
     
     var request, pass = false;
@@ -82,8 +84,10 @@ describe('SessionStrategy', function() {
   });
   
   describe('handling a request with a login session serialized to 0', function() {
-    var strategy = new SessionStrategy(function(user, req, done) {
-      done(null, { id: user });
+    var strategy = new SessionStrategy({
+      deserializeUser: function(serializedUser, req, done) {
+        done(null, { id: serializedUser });
+      }
     });
     
     var request, pass = false;
@@ -122,8 +126,10 @@ describe('SessionStrategy', function() {
   });
   
   describe('handling a request with a login session that has been invalidated', function() {
-    var strategy = new SessionStrategy(function(user, req, done) {
-      done(null, false);
+    var strategy = new SessionStrategy({
+      deserializeUser: function(serializedUser, req, done) {
+        done(null, false);
+      }
     });
     
     var request, pass = false;
@@ -161,8 +167,10 @@ describe('SessionStrategy', function() {
   });
   
   describe('handling a request with a login session and setting custom user property', function() {
-    var strategy = new SessionStrategy(function(user, req, done) {
-      done(null, { id: user });
+    var strategy = new SessionStrategy({
+      deserializeUser: function(serializedUser, req, done) {
+        done(null, { id: serializedUser });
+      }
     });
     
     var request, pass = false;
@@ -201,8 +209,10 @@ describe('SessionStrategy', function() {
   });
   
   describe('handling a request with a login session that encounters an error when deserializing', function() {
-    var strategy = new SessionStrategy(function(user, req, done) {
-      done(new Error('something went wrong'));
+    var strategy = new SessionStrategy({
+      deserializeUser: function(serializedUser, req, done) {
+        done(new Error('something went wrong'));
+      }
     });
     
     var request, error;

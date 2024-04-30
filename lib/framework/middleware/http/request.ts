@@ -1,4 +1,3 @@
-import { ExtendedRequest } from "../../../../types";
 import { LogInOptions, LogOutOptions, LogInError, LogOutError } from "../../../sessionmanager";
 
 type LogInCallback = (err: any) => Promise<any>;
@@ -12,15 +11,15 @@ type LogOutA = [user: LogOutOptions, callback: LogOutCallback];
 type LogOutB = [callback: LogOutCallback];
 type LogOut = [...args: LogOutA | LogOutB];
 
-class RequestWrapper {
+export default class RequestWrapper {
   // The previous implementation of the class use `this` as an implicit parameter
   // that would monkey-patch request object with the methods.
   // This update means its now far easier to reason about 'this'
-  req: ExtendedRequest;
+  req: Express.Request;
   login: typeof RequestWrapper.prototype.logIn;
   logout: typeof RequestWrapper.prototype.logOut;
 
-  constructor(req: ExtendedRequest) {
+  constructor(req: Express.Request) {
     this.req = req;
 
     this.logIn = this.logIn.bind(this);
@@ -101,5 +100,4 @@ class RequestWrapper {
   }
 }
 
-export default RequestWrapper;
 module.exports = RequestWrapper;

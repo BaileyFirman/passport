@@ -1,7 +1,6 @@
-import { Response, NextFunction } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import Passport from '../../passport';
 import RequestWrapper from './http/request';
-import { ExtendedRequest } from '../../../types';
 
 export type InitializeOptions = {
   userProperty?: string;
@@ -11,7 +10,7 @@ export type InitializeOptions = {
 const initialize = (passport: Passport, options: InitializeOptions) => {
   options = options ?? {};
   
-  return (req: ExtendedRequest, _res: Response, next: NextFunction) => {
+  return (req: Request, _res: Response, next: NextFunction) => {
     const request = new RequestWrapper(req);
 
     req.login = req.logIn = req.logIn ?? request.logIn;

@@ -1,10 +1,10 @@
 import FrameworkConnect from "./framework/connect";
 import SessionManager from "./sessionmanager";
 import SessionStrategy from "./strategies/session";
+import { Strategy } from "passport-strategy";
 
 import { AuthenticateCallback, AuthenticateOptions, AuthorizeOptions } from "./framework/middleware/authenticate";
 import { InitializeOptions } from "./framework/middleware/initialize";
-import { ExtendedRequest, ExtendedStrategy } from "../types";
 import AuthenticationError from "./errors/authenticationerror";
 
 type TID = any;
@@ -13,32 +13,32 @@ type InitialInfo = unknown;
 
 type SerializeUserCallback = (err: any, id?: TID) => void;
 type SerializeUserA = [(user: Express.User, done: SerializeUserCallback) => void];
-type SerializeUserB = [(req: ExtendedRequest, user: Express.User, done: SerializeUserCallback) => void];
+type SerializeUserB = [(req: Express.Request, user: Express.User, done: SerializeUserCallback) => void];
 
 type _SerializeUserCallback = (err: any, serializedUser?: number | NonNullable<unknown>) => any;
 type _SerializeUserA = [user: Express.User, done: _SerializeUserCallback];
-type _SerializeUserB = [user: Express.User, req: ExtendedRequest, done: _SerializeUserCallback];
+type _SerializeUserB = [user: Express.User, req: Express.Request, done: _SerializeUserCallback];
 
 type DeserializeUserCallback = (err: any, user?: Express.User | false | null) => void;
 type DeserializeUserA = [(...args: [tid: TID, done: DeserializeUserCallback]) => void];
-type DeserializeUserB = [(...args: [req: ExtendedRequest, tid: TID, done: DeserializeUserCallback]) => void];
+type DeserializeUserB = [(...args: [req: Express.Request, tid: TID, done: DeserializeUserCallback]) => void];
 
 type _DeserializeUserCallback = (err: any, user?: Express.User | false) => any;
-type _DeserializeUserA = [serializedUser: NonNullable<unknown>, req: ExtendedRequest, done: _DeserializeUserCallback];
+type _DeserializeUserA = [serializedUser: NonNullable<unknown>, req: Express.Request, done: _DeserializeUserCallback];
 type _DeserializeUserB = [serializedUser: NonNullable<unknown>, done: _DeserializeUserCallback];
 
 type TransformAuthInfoCallback = (err: any, info: any) => void;
 type TransformAuthInfoA = [(info: any) => void];
 type TransformAuthInfoB = [(info: any, done: TransformAuthInfoCallback) => void];
-type TransformAuthInfoC = [(req: ExtendedRequest, info: any, done: TransformAuthInfoCallback) => void];
+type TransformAuthInfoC = [(req: Express.Request, info: any, done: TransformAuthInfoCallback) => void];
 
 type _TransformAuthInfoCallback = (err: any, transformedAuthInfo?: InitialInfo | NonNullable<unknown>) => any;
-type _TransformAuthInfoA = [info: unknown, req: ExtendedRequest, done: _TransformAuthInfoCallback];
+type _TransformAuthInfoA = [info: unknown, req: Express.Request, done: _TransformAuthInfoCallback];
 type _TransformAuthInfoB = [info: unknown, done: _TransformAuthInfoCallback];
 
-class Passport {
+export default class Passport {
   _key: string;
-  _strategies: { [name: string]: ExtendedStrategy };
+  _strategies: { [name: string]: Strategy };
   _serializers: Array<SerializeUserA[0] | SerializeUserB[0]>;
   _deserializers: Array<DeserializeUserA[0] | DeserializeUserB[0]>;
   _infoTransformers: Array<TransformAuthInfoA[0] | TransformAuthInfoB[0] | TransformAuthInfoC[0]>;
@@ -67,7 +67,7 @@ class Passport {
 
   use({ name, strategy }: {
       name?: string;
-      strategy: ExtendedStrategy;
+      strategy: Strategy;
     }) {
     if (!name && strategy) {
       name = strategy.name;
@@ -306,5 +306,4 @@ class Passport {
   }
 }
 
-export default Passport;
 module.exports = Passport;

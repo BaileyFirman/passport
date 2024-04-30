@@ -1,4 +1,4 @@
-class AuthenticationError extends Error {
+export default class AuthenticationError extends Error {
   status: number;
 
   constructor(message: string, status: number = 401) {
@@ -14,5 +14,4 @@ class AuthenticationError extends Error {
   }
 }
 
-export default AuthenticationError;
 module.exports = AuthenticationError;

@@ -1,5 +1,6 @@
-import { Response, NextFunction } from "express";
-import { ExtendedRequest, ExtendedStrategy } from "../../../types";
+import { Request, Response, NextFunction } from "express";
+import { Strategy } from "passport-strategy";
+
 import Passport from "../../passport";
 import RequestWrapper from "./http/request";
 import AuthenticationError from "../../errors/authenticationerror";
@@ -58,10 +59,9 @@ const authenticate = ({
 }) => { 
   const nameIsArray = Array.isArray(name);
   const multi = nameIsArray;
-
   const names = nameIsArray ? name : [name];
   
-  return (req: ExtendedRequest, res: Response, next: NextFunction) => {
+  return (req: Request, res: Response, next: NextFunction) => {
     const request = new RequestWrapper(req);
 
     req.login = req.logIn = req.logIn ?? request.logIn;
@@ -164,8 +164,8 @@ const authenticate = ({
         return allFailed();
       }
 
-      let strategy: ExtendedStrategy;
-      let prototype: ExtendedStrategy;
+      let strategy: Strategy;
+      let prototype: Strategy;
 
       // The original code assumes someone will make a mistake here, we can't resolve the type
       // @ts-ignore
@@ -303,10 +303,8 @@ const authenticate = ({
         failures.push({ challenge: challenge, status: status });
         attempt(i + 1);
       };
-      
-      // strategy.fail = fail;
 
-      strategy.redirect = (url, status): void => {
+      strategy.redirect = (url: string, status?: number | undefined): void => {
         res.statusCode = status ?? 302;
         res.setHeader('Location', url);
         res.setHeader('Content-Length', '0');

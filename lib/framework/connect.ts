@@ -1,7 +1,7 @@
 import initialize from './middleware/initialize';
 import authenticate from './middleware/authenticate';
 
-class FrameworkConnect {
+export default class FrameworkConnect {
   initialize: typeof initialize;
   authenticate: typeof authenticate;
   authorize: typeof authenticate;
@@ -13,5 +13,4 @@ class FrameworkConnect {
   }
 }
 
-export default FrameworkConnect;
 module.exports = FrameworkConnect;

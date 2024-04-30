@@ -1,5 +1,3 @@
-import { ExtendedRequest } from '../types';
-import AuthenticationError from './errors/authenticationerror';
 import Passport from './passport';
 import { SessionStrategyOptions } from './strategies/session';
 
@@ -25,7 +23,7 @@ const merge = (a: { [property: string]: any; }, b: { [property: string]: any; })
   return a;
 };
 
-class SessionManager {
+export default class SessionManager {
   private _key: string;
   private _serializeUser: Passport['serializeUser'];
 
@@ -44,7 +42,7 @@ class SessionManager {
   }
 
   async logIn({ req, user, options }: {
-    req: ExtendedRequest;
+    req: Express.Request;
     user: Express.User;
     options: LogInOptions;
   }): Promise<LogInError> {
@@ -97,7 +95,7 @@ class SessionManager {
   }
 
   async logOut({ req, options }: {
-    req: ExtendedRequest;
+    req: Express.Request;
     options: LogOutOptions;
   }): Promise<LogOutError> {
     if (!req.session) {
@@ -140,5 +138,4 @@ class SessionManager {
   }
 }
 
-export default SessionManager;
 module.exports = SessionManager;

@@ -2,14 +2,13 @@ const pause = require('pause');
 import { Strategy } from 'passport-strategy';
 import Passport from '../passport';
 import { AuthenticateOptions } from '../framework/middleware/authenticate';
-import { ExtendedRequest } from '../../types';
 import AuthenticationError from '../errors/authenticationerror';
 
 export type SessionStrategyOptions = {
   key: string;
 };
 
-class SessionStrategy extends Strategy {
+export default class SessionStrategy extends Strategy {
   public name: string;
   private _key: string;
   private _deserializeUser: Passport['deserializeUser'];
@@ -28,7 +27,7 @@ class SessionStrategy extends Strategy {
     this._deserializeUser = deserializeUser;
   }
 
-  authenticate(req: ExtendedRequest, options: AuthenticateOptions = {
+  authenticate(req: Express.Request, options: AuthenticateOptions = {
     session: true
   }) {
     if (!req.session) {
@@ -76,5 +75,4 @@ class SessionStrategy extends Strategy {
   }
 }
 
-export default SessionStrategy;
 module.exports = SessionStrategy;

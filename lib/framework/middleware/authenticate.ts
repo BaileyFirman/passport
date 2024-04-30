@@ -284,6 +284,7 @@ const authenticate = ({
         }))();
       };
 
+      // TODO: Resolve typing
       // const fail: (...args: [any, number] | [number]) => void = (...args) => {
       //   const challenge = args.length === 2 ? args[0] : undefined;
       //   const status = args.length === 2 ? args[1] : args[0];

@@ -157,9 +157,6 @@ const authenticate = ({
       res.end(STATUS_CODES[res.statusCode]);
     }
     
-    /**
-     * @param {number} i 
-     */
     const attempt = (i: number) => {
       let layer = names[i];
 

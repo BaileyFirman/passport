@@ -65,12 +65,6 @@ class Passport {
     });
   }
 
-  /**
-   * @param {{
-   *   name?: string,
-   *   strategy: Strategy
-   * }} _
-   */
   use({ name, strategy }: {
       name?: string;
       strategy: ExtendedStrategy;
@@ -307,9 +301,6 @@ class Passport {
     }
   }
 
-  /**
-   * @param {string} name 
-   */
   _strategy(name: string) {
     return this._strategies[name];
   }

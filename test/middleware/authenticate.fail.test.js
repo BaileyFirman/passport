@@ -2,9 +2,12 @@
 /* jshint expr: true */
 
 var chai = require('chai')
-  , authenticate = require('../../lib/middleware/authenticate')
+  , authenticateReal = require('../../lib/framework/middleware/authenticate')
   , Passport = require('../..').Passport;
 
+const authenticate = (passport, name, options, callback) => {
+  return authenticateReal({ passport, name, options, callback });
+};
 
 describe('middleware/authenticate', function() {
   
@@ -16,7 +19,10 @@ describe('middleware/authenticate', function() {
     };
     
     var passport = new Passport();
-    passport.use('fail', new Strategy());
+    passport.use({
+  name: 'fail',
+  strategy: new Strategy(),
+});
     
     var request, response;
 
@@ -51,7 +57,10 @@ describe('middleware/authenticate', function() {
     };
     
     var passport = new Passport();
-    passport.use('fail', new Strategy());
+    passport.use({
+  name: 'fail',
+  strategy: new Strategy(),
+});
     
     var request, response;
 
@@ -85,7 +94,10 @@ describe('middleware/authenticate', function() {
     };
     
     var passport = new Passport();
-    passport.use('fail', new Strategy());
+    passport.use({
+  name: 'fail',
+  strategy: new Strategy(),
+});
     
     var request, response;
 
@@ -127,7 +139,10 @@ describe('middleware/authenticate', function() {
     };
     
     var passport = new Passport();
-    passport.use('fail', new Strategy());
+    passport.use({
+  name: 'fail',
+  strategy: new Strategy(),
+});
     
     var request, response;
 
@@ -162,7 +177,10 @@ describe('middleware/authenticate', function() {
     };
     
     var passport = new Passport();
-    passport.use('fail', new Strategy());
+    passport.use({
+  name: 'fail',
+  strategy: new Strategy(),
+});
     
     var request, response;
 
@@ -197,7 +215,10 @@ describe('middleware/authenticate', function() {
     };
     
     var passport = new Passport();
-    passport.use('fail', new Strategy());
+    passport.use({
+  name: 'fail',
+  strategy: new Strategy(),
+});
     
     var request, response, error;
 
@@ -242,7 +263,10 @@ describe('middleware/authenticate', function() {
     };
     
     var passport = new Passport();
-    passport.use('fail', new Strategy());
+    passport.use({
+  name: 'fail',
+  strategy: new Strategy(),
+});
     
     var request, response, error;
 
@@ -287,7 +311,10 @@ describe('middleware/authenticate', function() {
     };
     
     var passport = new Passport();
-    passport.use('fail', new Strategy());
+    passport.use({
+  name: 'fail',
+  strategy: new Strategy(),
+});
     
     var request, response, error;
 
@@ -332,7 +359,10 @@ describe('middleware/authenticate', function() {
     };
     
     var passport = new Passport();
-    passport.use('fail', new Strategy());
+    passport.use({
+  name: 'fail',
+  strategy: new Strategy(),
+});
     
     var request, response, error;
 
@@ -384,7 +414,10 @@ describe('middleware/authenticate', function() {
     };
     
     var passport = new Passport();
-    passport.use('fail', new Strategy());
+    passport.use({
+  name: 'fail',
+  strategy: new Strategy(),
+});
     
     var request, response, error;
 
@@ -429,7 +462,10 @@ describe('middleware/authenticate', function() {
     };
     
     var passport = new Passport();
-    passport.use('fail', new Strategy());
+    passport.use({
+  name: 'fail',
+  strategy: new Strategy(),
+});
     
     var request, response, error;
 

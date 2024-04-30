@@ -2,9 +2,16 @@
 /* jshint expr: true */
 
 var chai = require('chai')
-  , authenticate = require('../../lib/middleware/authenticate')
+  , authenticateReal = require('../../lib/framework/middleware/authenticate')
   , Passport = require('../..').Passport;
 
+const authenticate = (passport, name, options, callback) => {
+  if(!!passport && !!name && !!options && (!callback)) {
+    return authenticateReal({ passport, name, callback: options });
+  } else {
+    return authenticateReal({ passport, name, options, callback });
+  }
+};
 
 describe('middleware/authenticate', function() {
   
@@ -17,7 +24,10 @@ describe('middleware/authenticate', function() {
     };
     
     var passport = new Passport();
-    passport.use('success', new Strategy());
+    passport.use({
+  name: 'success',
+  strategy: new Strategy(),
+});
     
     var request, error, user, info;
 
@@ -69,7 +79,10 @@ describe('middleware/authenticate', function() {
     };
     
     var passport = new Passport();
-    passport.use('success', new Strategy());
+    passport.use({
+  name: 'success',
+  strategy: new Strategy(),
+});
     
     var request, error, user, info;
 

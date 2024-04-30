@@ -3,13 +3,13 @@ import { LogInOptions, LogOutOptions, LogInError, LogOutError } from "../../../s
 
 type LogInCallback = (err: any) => Promise<any>;
 
-type LogInA = [Express.User, LogInOptions];
-type LogInB = [Express.User, LogInOptions, LogInCallback];
+type LogInA = [user: Express.User, options: LogInOptions];
+type LogInB = [user: Express.User, options: LogInOptions, callback: LogInCallback];
 type LogIn = [...args: LogInA | LogInB];
 
 type LogOutCallback = (err: any) => Promise<any>;
-type LogOutA = [LogOutOptions, LogOutCallback];
-type LogOutB = [LogOutCallback];
+type LogOutA = [user: LogOutOptions, callback: LogOutCallback];
+type LogOutB = [callback: LogOutCallback];
 type LogOut = [...args: LogOutA | LogOutB];
 
 class RequestWrapper {
@@ -31,6 +31,8 @@ class RequestWrapper {
     this.isUnauthenticated = this.isUnauthenticated.bind(this);
   }
 
+  async logIn(...args: LogInA): Promise<LogInError>
+  async logIn(...args: LogInB): Promise<LogInError>
   async logIn(...args: LogIn): Promise<LogInError> {
     const user = args[0];
     const options = typeof args[1] === 'object' ? args[1] : {};
@@ -63,6 +65,8 @@ class RequestWrapper {
     }
   }
 
+  async logOut(...args: LogOutA): Promise<LogOutError>
+  async logOut(...args: LogOutB): Promise<LogOutError>
   async logOut(...args: LogOut): Promise<LogOutError> {
     const options = typeof args[0] === 'object' ? args[0] : {};
     const callback = typeof args[0] === 'function' ? args[0] : args[1];

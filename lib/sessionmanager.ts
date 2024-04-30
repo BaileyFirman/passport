@@ -44,12 +44,12 @@ class SessionManager {
   }
 
   async logIn({ req, user, options }: {
-      req: ExtendedRequest;
-      user: Express.User;
-      options: LogInOptions;
-    }): Promise<LogInError> {
+    req: ExtendedRequest;
+    user: Express.User;
+    options: LogInOptions;
+  }): Promise<LogInError> {
     if (!req.session) {
-      return new AuthenticationError(
+      return new Error(
         'Login sessions require session support. Did you forget to use `express-session` middleware?',
       );
     }
@@ -101,7 +101,9 @@ class SessionManager {
     options: LogOutOptions;
   }): Promise<LogOutError> {
     if (!req.session) {
-      return new AuthenticationError('Login sessions require session support. Did you forget to use `express-session` middleware?');
+      return new Error(
+        'Login sessions require session support. Did you forget to use `express-session` middleware?',
+      );
     }
 
     if (req.session[this._key]) {
@@ -126,15 +128,15 @@ class SessionManager {
       return regenerateError;
     }
 
-    if (options.keepSessionInfo) {
-      merge(req.session, prevSession);
-
-      return await new Promise((resolve) => {
-        req.session.save((err) => resolve(err));
-      });
-    } else {
+    if (!options.keepSessionInfo) {
       return;
     }
+    
+    merge(req.session, prevSession);
+
+    return await new Promise((resolve) => {
+      req.session.save((err) => resolve(err));
+    });
   }
 }
 

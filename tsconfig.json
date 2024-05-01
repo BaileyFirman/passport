@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "checkJs": true,
+    "module": "commonjs",
+    "strict": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "es5",
+    "types": ["express-session", "express", "node"],
+    "declaration": true,
+    "outDir": "./dist-ts",
+  },
+  "include": [
+    "./lib/**/*",
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

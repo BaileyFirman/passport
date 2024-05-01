@@ -2,9 +2,12 @@
 /* jshint expr: true */
 
 var chai = require('chai')
-  , authenticate = require('../../lib/middleware/authenticate')
+  , authenticateReal = require('../../lib/framework/middleware/authenticate')
   , Passport = require('../..').Passport;
 
+const authenticate = (passport, name, options, callback) => {
+  return authenticateReal({ passport, name, options, callback });
+};
 
 describe('middleware/authenticate', function() {
   
@@ -17,7 +20,10 @@ describe('middleware/authenticate', function() {
     };
     
     var passport = new Passport();
-    passport.use('success', new Strategy());
+    passport.use({
+  name: 'success',
+  strategy: new Strategy(),
+});
     
     var request, error;
 
@@ -26,9 +32,9 @@ describe('middleware/authenticate', function() {
         .req(function(req) {
           request = req;
           
-          req.logIn = function(user, options, done) {
+          req.logIn = function(user, options, callback) {
             this.user = user;
-            done();
+            callback();
           };
         })
         .next(function(err) {
@@ -65,7 +71,11 @@ describe('middleware/authenticate', function() {
     };
     
     var passport = new Passport();
-    passport.use('success', new Strategy());
+    passport.use({
+      name: 'success',
+      strategy: new Strategy(),
+    });
+
     passport.transformAuthInfo(function(info, done) {
       done(null, { clientId: info.clientId, client: { name: 'Foo' }, scope: info.scope });
     });
@@ -77,9 +87,9 @@ describe('middleware/authenticate', function() {
         .req(function(req) {
           request = req;
           
-          req.logIn = function(user, options, done) {
+          req.logIn = function(user, options, callback) {
             this.user = user;
-            done();
+            callback();
           };
         })
         .next(function(err) {
@@ -117,7 +127,11 @@ describe('middleware/authenticate', function() {
     };
     
     var passport = new Passport();
-    passport.use('success', new Strategy());
+    passport.use({
+      name: 'success',
+      strategy: new Strategy(),
+    });
+
     passport.transformAuthInfo(function(info, done) {
       done(new Error('something went wrong'));
     });
@@ -129,9 +143,9 @@ describe('middleware/authenticate', function() {
         .req(function(req) {
           request = req;
           
-          req.logIn = function(user, options, done) {
+          req.logIn = function(user, options, callback) {
             this.user = user;
-            done();
+            callback();
           };
         })
         .next(function(err) {
@@ -166,7 +180,10 @@ describe('middleware/authenticate', function() {
     };
     
     var passport = new Passport();
-    passport.use('success', new Strategy());
+    passport.use({
+  name: 'success',
+  strategy: new Strategy(),
+});
     
     var request, error;
 
@@ -175,9 +192,9 @@ describe('middleware/authenticate', function() {
         .req(function(req) {
           request = req;
           
-          req.logIn = function(user, options, done) {
+          req.logIn = function(user, options, callback) {
             this.user = user;
-            done();
+            callback();
           };
         })
         .next(function(err) {

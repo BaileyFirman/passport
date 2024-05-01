@@ -1,7 +1,7 @@
+import { Request } from 'express';
 import { LogInOptions, LogOutOptions, LogInError, LogOutError } from "../../../sessionmanager";
 
 type LogInCallback = (err: any) => Promise<any>;
-
 type LogInA = [user: Express.User, options: LogInOptions];
 type LogInB = [user: Express.User, options: LogInOptions, callback: LogInCallback];
 type LogIn = [...args: LogInA | LogInB];
@@ -12,14 +12,11 @@ type LogOutB = [callback: LogOutCallback];
 type LogOut = [...args: LogOutA | LogOutB];
 
 export default class RequestWrapper {
-  // The previous implementation of the class use `this` as an implicit parameter
-  // that would monkey-patch request object with the methods.
-  // This update means its now far easier to reason about 'this'
-  req: Express.Request;
+  req: Request;
   login: typeof RequestWrapper.prototype.logIn;
   logout: typeof RequestWrapper.prototype.logOut;
 
-  constructor(req: Express.Request) {
+  constructor(req: Request) {
     this.req = req;
 
     this.logIn = this.logIn.bind(this);
@@ -90,12 +87,12 @@ export default class RequestWrapper {
     }
   };
 
-  isAuthenticated(): boolean {
+  isAuthenticated(): this is Express.AuthenticatedRequest {
     const property = this.req._userProperty ?? 'user';
     return !!this.req[property];
   }
 
-  isUnauthenticated(): boolean {
+  isUnauthenticated(): this is Express.UnauthenticatedRequest {
     return !this.req.isAuthenticated();
   }
 }

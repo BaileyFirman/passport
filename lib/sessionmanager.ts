@@ -1,3 +1,4 @@
+// import { Request, Response, NextFunction } from 'express';
 import Passport from './passport';
 import { SessionStrategyOptions } from './strategies/session';
 
@@ -41,7 +42,11 @@ export default class SessionManager {
     this.logOut = this.logOut.bind(this);
   }
 
-  async logIn({ req, user, options }: {
+  async logIn({
+    req,
+    user,
+    options,
+  }: {
     req: Express.Request;
     user: Express.User;
     options: LogInOptions;

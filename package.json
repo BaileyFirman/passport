@@ -57,7 +57,7 @@
     "node": ">= 0.4.0"
   },
   "scripts": {
-    "esbuild": "esbuild --bundle --platform=node --outfile=dist/index.js lib/index.js",
+    "esbuild": "esbuild --bundle --platform=node --outfile=dist/index.js lib/index.ts",
     "tsbuild": "tsc --project tsconfig.json",
     "test": "npm run tsbuild && mocha --reporter spec --require test/bootstrap/node test/*.test.js test/**/*.test.js"
   }

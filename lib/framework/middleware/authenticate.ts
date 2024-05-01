@@ -1,11 +1,10 @@
+import { STATUS_CODES } from 'http';
 import { Request, Response, NextFunction } from "express";
 import { Strategy } from "passport-strategy";
 
 import Passport from "../../passport";
 import RequestWrapper from "./http/request";
 import AuthenticationError from "../../errors/authenticationerror";
-
-const { STATUS_CODES } = require('http');
 
 export type AuthenticateOptions = {
   authInfo?: boolean;

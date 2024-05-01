@@ -7,10 +7,12 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "target": "es5",
-    "types": ["./lib/request.d.ts", "express-session", "express", "node"]
+    "types": ["express-session", "express", "node"],
+    "declaration": true,
+    "outDir": "./dist-ts",
   },
   "include": [
-    "./lib/**/*"
+    "./lib/**/*",
   ],
   "exclude": [
     "node_modules"
